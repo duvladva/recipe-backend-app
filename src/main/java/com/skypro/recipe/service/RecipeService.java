@@ -1,8 +1,10 @@
 package com.skypro.recipe.service;
 
 
+import com.skypro.recipe.model.Ingredient;
 import com.skypro.recipe.model.Recipe;
 
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -26,4 +28,26 @@ public interface RecipeService {
 
         Optional<Recipe> getById(Long id); // Главная цель Optional — замена null-значений, благодаря этому должна
                                             // повышаться безопасность и читаемость кода
+
+    /**
+     * Обновление рецепта
+     * @param id идентификатор
+     * @param recipe рецепт
+     * @return обновленный рецепт
+     */
+    Recipe update(Long id, Recipe recipe);
+
+    /**
+     * Удаление рецепта
+     * @param id идентификатор
+     * @return удаленный рецепт
+     */
+    Recipe delete(Long id);
+
+    /**
+     *
+     * @return мапа рецептов
+     */
+    Map<Long, Recipe> getAll();
+
 }

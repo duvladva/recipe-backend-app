@@ -24,7 +24,6 @@ public class IngredientServiceImpl implements IngredientService {
     public Ingredient save(Ingredient ingredient) {
         if (!validationService.validate(ingredient)) {
             throw new ValidationExeption(ingredient.toString());
-
         }
         return ingredients.put(idCounter++, ingredient);
     }
@@ -33,4 +32,25 @@ public class IngredientServiceImpl implements IngredientService {
     public Optional<Ingredient> getById(Long id) {
         return Optional.ofNullable(ingredients.get(id));
     }
+
+    @Override
+    public Ingredient update(Long id, Ingredient ingredient) {
+        if (!validationService.validate(ingredient)) {
+            throw new ValidationExeption(ingredient.toString());
+        }
+
+        return ingredients.replace(id, ingredient);
+    }
+
+    @Override
+    public Ingredient delete(Long id) {
+        return ingredients.remove(id);
+    }
+
+    @Override
+    public Map<Long, Ingredient> getAll() {
+        return ingredients;
+    }
+
+
 }
