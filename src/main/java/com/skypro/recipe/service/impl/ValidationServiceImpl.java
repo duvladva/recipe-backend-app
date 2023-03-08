@@ -1,7 +1,8 @@
-package com.skypro.recipe.service;
+package com.skypro.recipe.service.impl;
 
 import com.skypro.recipe.model.Ingredient;
 import com.skypro.recipe.model.Recipe;
+import com.skypro.recipe.service.ValidationService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
