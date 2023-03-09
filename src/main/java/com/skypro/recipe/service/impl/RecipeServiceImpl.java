@@ -9,8 +9,11 @@ import com.skypro.recipe.service.ValidationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,9 +38,6 @@ public class RecipeServiceImpl implements RecipeService {
     private Path recipesPath;
 
 
-
-
-
     @Override
     public Recipe save(Recipe recipe) {
         if (!validationService.validate(recipe)) {
@@ -45,7 +45,7 @@ public class RecipeServiceImpl implements RecipeService {
 
         }
         recipes.put(idCounter++, recipe);
-        fileService.saveMapToFile(recipes,recipesPath);
+        fileService.saveMapToFile(recipes, recipesPath);
         return recipe;
     }
 
@@ -76,6 +76,19 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public Map<Long, Recipe> getAll() {
         return recipes;
+    }
+
+    @Override
+    public File readFile() {
+        return recipesPath.toFile();
+    }
+
+    @Override
+    public void uploadFile(MultipartFile file) throws IOException {
+        fileService.uploadFile(file, recipesPath);
+        recipes = fileService.readMapFromFile(recipesPath, new TypeReference<HashMap<Long, Recipe>>() {
+        });
+
     }
 
     @PostConstruct

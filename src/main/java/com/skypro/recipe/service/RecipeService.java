@@ -3,7 +3,10 @@ package com.skypro.recipe.service;
 
 import com.skypro.recipe.model.Ingredient;
 import com.skypro.recipe.model.Recipe;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Map;
 import java.util.Optional;
 
@@ -49,5 +52,18 @@ public interface RecipeService {
      * @return мапа рецептов
      */
     Map<Long, Recipe> getAll();
+
+    /**
+     * Чтение файла рецептов
+     * @Return файл рецептов
+     */
+    File readFile();
+
+    /**
+     * Загрузка файла рецептов
+     * @param file файл рецептов
+     * @throws IOException
+     */
+    void  uploadFile(MultipartFile file) throws IOException;
 
 }
