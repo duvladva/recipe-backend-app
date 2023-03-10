@@ -85,7 +85,7 @@ public class IngredientServiceImpl implements IngredientService {
     @Override
     public void uploadFile(MultipartFile file) throws IOException {
         fileService.uploadFile(file, ingredientPath);
-        ingredients = fileService.readMapFromFile(ingredientPath, new TypeReference<HashMap<Long, Ingredient>>() {
+        ingredients = fileService.readMapFromFile(ingredientPath, new TypeReference<Map<Long, Ingredient>>() {
         });
 
     }
@@ -93,7 +93,7 @@ public class IngredientServiceImpl implements IngredientService {
     @PostConstruct
     private void init() {
         ingredientPath = Path.of(ingredientsFilePath, ingredientsFileName);
-        ingredients = fileService.readMapFromFile(ingredientPath, new TypeReference<HashMap<Long, Ingredient>>() {
+        ingredients = fileService.readMapFromFile(ingredientPath, new TypeReference<Map<Long, Ingredient>>() {
         });
     }
 

@@ -32,7 +32,7 @@ public class FileService {
         }
     }
 
-    public <T> Map<Long, T> readMapFromFile(Path path, TypeReference<HashMap<Long, T>> typeReference) {
+    public <T> Map<Long, T> readMapFromFile(Path path, TypeReference<Map<Long, T>> typeReference) {
         try {
             String json = Files.readString(path);
 
@@ -62,7 +62,11 @@ public class FileService {
             bis.transferTo(bos);
         }
     }
+public  Path saveToFile(String content, Path path) throws IOException {
+    createNewFile(path);
+    return Files.writeString(path, content);
 
+}
     private void createNewFile(Path path) throws IOException {
         Files.deleteIfExists(path);
         Files.createFile(path);

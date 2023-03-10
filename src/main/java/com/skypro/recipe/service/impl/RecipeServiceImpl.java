@@ -35,6 +35,10 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Value("${name.of.recipes.files}")
     private String recipesFileName;
+
+    @Value("${name.of.recipes.file}")
+    private String recipesTxtFileName;
+
     private Path recipesPath;
 
 
@@ -86,15 +90,43 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public void uploadFile(MultipartFile file) throws IOException {
         fileService.uploadFile(file, recipesPath);
-        recipes = fileService.readMapFromFile(recipesPath, new TypeReference<HashMap<Long, Recipe>>() {
+        recipes = fileService.readMapFromFile(recipesPath, new TypeReference<Map<Long, Recipe>>() {
         });
+
+    }
+
+    @Override
+    public File prepareRecipesTxt() throws IOException {
+        return fileService
+                .saveToFile(recipesToString(), Path.of(recipesFilePath, recipesFileName))
+                .toFile();
 
     }
 
     @PostConstruct
     private void init() {
         recipesPath = Path.of(recipesFilePath, recipesFileName);
-        recipes = fileService.readMapFromFile(recipesPath, new TypeReference<HashMap<Long, Recipe>>() {
+        recipes = fileService.readMapFromFile(recipesPath, new TypeReference<Map<Long, Recipe>>() {
         });
+    }
+
+    private String recipesToString() {
+        StringBuilder sb = new StringBuilder();
+        String listEl = " * ";
+
+        for (Recipe recipe : recipes.values()) {
+            sb.append(recipe.toString()).append("\n");
+
+            sb.append("\nИнгредиенты:\n");
+            for (Ingredient ingredient : recipe.getIngredients()) {
+                sb.append(listEl).append(ingredient.toString()).append("\n");
+            }
+
+            sb.append("\nИнструкция приготовления:\n");
+            for (String step : recipe.getSteps()) {
+                sb.append(listEl).append(step).append("\n");
+            }
+        }
+        return sb.append("/n").toString();
     }
 }

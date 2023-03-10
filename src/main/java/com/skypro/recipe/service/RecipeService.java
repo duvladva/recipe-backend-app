@@ -66,4 +66,6 @@ public interface RecipeService {
      */
     void  uploadFile(MultipartFile file) throws IOException;
 
+    File prepareRecipesTxt() throws IOException;
+
 }
